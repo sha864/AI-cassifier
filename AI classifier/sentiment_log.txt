@@ -1,0 +1,16 @@
+Input: I love this internship opportunity! => Sentiment: Positive
+Input:  It's okay, not great though. => Sentiment: Positive
+Input: it okay => Sentiment: Positive
+Input:  I HAte this task => Sentiment: Negative
+Input: it not a good or nor at a bad task => Sentiment: Negative
+Input: Its so so => Sentiment: Neutral
+Input: yes its ok => Sentiment: Positive
+Input: not good => Sentiment: Negative
+Input: so so  => Sentiment: Neutral
+Input: may be => Sentiment: Neutral
+
+
+
+positive 4
+negative  3
+negative 3
