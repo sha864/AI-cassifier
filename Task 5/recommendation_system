@@ -1,1 +1,56 @@
+"""
+🎯 Content-Based Movie Recommendation System
+Author: [Your Name]
+Description: Recommends similar movies based on genres using cosine similarity.
+"""
+
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer
+
+# 1️⃣ Create a small sample movie dataset
+movies = pd.DataFrame({
+    'movie_id': [1, 2, 3, 4, 5, 6],
+    'title': ['Inception', 'The Matrix', 'Interstellar', 'The Dark Knight', 'The Notebook', 'Titanic'],
+    'genres': ['sci-fi thriller', 'sci-fi action', 'sci-fi drama', 'action thriller', 'romance drama', 'romance tragedy']
+})
+
+# 2️⃣ Vectorize genres using CountVectorizer
+vectorizer = CountVectorizer()
+genre_matrix = vectorizer.fit_transform(movies['genres'])
+
+# 3️⃣ Compute cosine similarity
+cosine_sim = cosine_similarity(genre_matrix, genre_matrix)
+
+# 4️⃣ Function to get movie recommendations
+def recommend_movies(movie_title, num_recommendations=3):
+    """
+    Recommend similar movies based on genre similarity.
+
+    Args:
+        movie_title (str): The movie the user likes
+        num_recommendations (int): Number of similar movies to recommend
+    """
+    if movie_title not in movies['title'].values:
+        print("❌ Movie not found in dataset.")
+        return
+
+    # Get index of the movie
+    idx = movies[movies['title'] == movie_title].index[0]
+
+    # Get similarity scores
+    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    # Sort movies by similarity (ignore the movie itself)
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:num_recommendations + 1]
+
+    # Print recommendations
+    print(f"\n🎬 Recommendations for '{movie_title}':")
+    for i, score in sim_scores:
+        print(f"→ {movies.iloc[i]['title']} (Similarity Score: {score:.2f})")
+
+# 5️⃣ Sample Test
+if __name__ == "__main__":
+    sample_movie = "Inception"
+    recommend_movies(sample_movie)
 
